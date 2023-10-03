@@ -48,7 +48,7 @@ function activate(context) {
     createOutPutChannel();
 
     let previewPanelInfo = { "webPanel": null, appDir: null, childProcess: null, isEnact: null };
-    let packageManagerObj = {webPanel :null};
+    let packageManagerObj = { webPanel: null };
     const serviceProvider = vscode.languages.registerCompletionItemProvider(
         ['plaintext', 'javascript', 'typescript', 'html'],
         {
@@ -923,37 +923,56 @@ function activate(context) {
         ipkAnalyzer.startEditor();
 
     }));
-  
-    this.packageMgrWebviewProvider = new PackageManagerSidebar(context);
-    vscode.window.registerWebviewViewProvider(PackageManagerSidebar.viewType, this.packageMgrWebviewProvider, { webviewOptions: { retainContextWhenHidden: true } });
+    context.subscriptions.push(vscode.commands.registerCommand('packagemanager.start', async () => {
 
-  vscode.commands.executeCommand('webososeDevices.refreshList');
+        vscode.commands.executeCommand('setContext', 'webosose.showpackagemanager', true);
+        vscode.commands.executeCommand("workbench.action.alignPanelCenter");
+        vscode.commands.executeCommand("pkgmgr.focus");
+        if (!this.packageMgrWebviewProvider) {
+            this.packageMgrWebviewProvider = new PackageManagerPanel(context);
+            vscode.window.registerWebviewViewProvider(PackageManagerPanel.viewType, this.packageMgrWebviewProvider, { webviewOptions: { retainContextWhenHidden: true } });
+        }
+
+    }));
+
+
+    vscode.commands.executeCommand('setContext', 'webosose.showpackagemanager', false);
+    vscode.commands.executeCommand('webososeDevices.refreshList');
+    // vscode.commands.executeCommand('vbox.refreshList');
+
     webososeAppsProvider.storeContextOnExtnLaunch(context);
     initExtViews();
 
 }
-function initExtViews(){
+function initExtViews() {
     vscode.commands.executeCommand('vbox.focus');
     vscode.commands.executeCommand('apps.focus');
     vscode.commands.executeCommand('webososeDevices.focus');
-    
+    // vscode.commands.executeCommand('workbench.explorer.fileView.focus');
 
-    setTimeout(()=>{
-        if(logger.extInit == false){
-            logger.logAny("webOS Studio initialized successfully." ) ;
+
+    setTimeout(() => {
+        if (logger.extInit == false) {
+            // logger.logAny("webOS Studio initialized"+ (logger.extInitMessage==""?  " successfully.":" with warning") ) ;
+            logger.logAny("webOS Studio initialized successfully.");
             logger.log("------------------------------------------------")
-        
+
             logger.extInit = true;
-          
-        
+            // if(logger.extInitMessage!=""){
+            //     logger.warn(logger.extInitMessage)
+            //     logger.log("------------------------------------------------")
+            //     logger.extInitMessage =""
+            // }
+
+
         }
-    },5000)
-    
-    
-    
-   
-    
-    
+    }, 5000)
+
+
+
+
+
+
 }
 
 function getResourcePath() {
@@ -1014,10 +1033,10 @@ function chooseAPILevel(filepath) {
             .showInformationMessage(`There is no API level information in the folder of this project.
                                 Do you want to create it?\n If you select "Yes", create ".webosstuido.config" file.
                                 If not, you can't use the Luna API Auto Completion.`, ...["Yes", "No"])
-        .then(async (answer) => {
-            if (answer === "Yes") {
-                let controller = new InputController();
-                let apiList = ['20', '21', '22', '23', '24', '25', '27'];  // [REQUIRED] Update the api level when new version of OSE is released.
+            .then(async (answer) => {
+                if (answer === "Yes") {
+                    let controller = new InputController();
+                    let apiList = ['20', '21', '22', '23'];  // [REQUIRED] Update the api level when new version of OSE is released.
 
                     controller.addStep({
                         title: 'Choose API Level',
@@ -1397,9 +1416,6 @@ function getWebviewHome(resource) {
                 <select name="selelct-api-version" id="selelct-api-version" disabled>
                         <option value="none" selected disabled hidden>====== select ======</option>
                         <!--[REQUIRED] Update the api level when new version of OSE is released.-->
-                        <option value="OSE_APILevel_27">OSE APILevel27</option>
-                        <option value="OSE_APILevel_25">OSE APILevel25</option>
-                        <option value="OSE_APILevel_24">OSE APILevel24</option>
                         <option value="OSE_APILevel_23">OSE APILevel23</option>
                         <option value="OSE_APILevel_22">OSE APILevel22</option>
                         <option value="OSE_APILevel_21">OSE APILevel21</option>
