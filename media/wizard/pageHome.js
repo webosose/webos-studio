@@ -49,6 +49,10 @@
             description.value = descriptionValue + '2.20.0';
         } else if (apiVersionValue === 'OSE_APILevel_23') {
             description.value = descriptionValue + '2.21.0';
+        } else if (apiVersionValue === 'OSE_APILevel_24') {
+            description.value = descriptionValue + '2.22.0';
+        } else if (apiVersionValue === 'OSE_APILevel_25') {
+            description.value = descriptionValue + '2.23.0';
         }
     });
     btnGenerate.addEventListener('click', function() {
