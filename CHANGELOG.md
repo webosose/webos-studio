@@ -6,11 +6,11 @@ All notable changes to the "webOS Studio" extension will be documented in this f
 
 ## [1.1.4] [2023-11-08]
 
-- Update API Level 27
+- Update webOS OSE API Level 27
 
 ## [1.1.3] [2023-10-24]
 
-- Update API Level 24 and 25
+- Update webOS OSE API Level 24 and 25
 
 ## [1.1.2] [2023-08-04]
 
