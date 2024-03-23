@@ -1,5 +1,8 @@
 # webOS Studio
 
+> [!WARNING]
+> **This repository deprecated and moved to [@webos-tools/webos-studio](https://github.com/webos-tools/webos-studio).**
+
 **webOS Studio** helps the users develop apps or services for [webOS Open Source Edition (OSE)](https://webosose.org) and [webOS TV](https://webostv.developer.lge.com).
 
 > **IMPORTANT NOTICE:** 
